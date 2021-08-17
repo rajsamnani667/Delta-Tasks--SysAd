@@ -1,0 +1,22 @@
+# Build : sudo docker build -t myimage ./
+# Run   : sudo docker run -t -p 5000:5000 -i myimage
+
+FROM tiangolo/meinheld-gunicorn-flask:python3.7
+
+
+COPY . ./pythonflask
+
+RUN sudo apt update 
+RUN sudo apt-get intall python3-pip
+RUN pip3 install virtualenv
+RUN virtualenv -p python3 env
+RUN source env/bin/activate
+RUN pip3 install flask
+RUN pip3 install flask-mysql
+
+#ports
+EXPOSE 5000  
+EXPOSE 3306
+
+ENTRYPOINT [ "python3" ]
+CMD [ "./pythonflask/app.py" ]
